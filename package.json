@@ -1,0 +1,16 @@
+{
+    "name": "spreadsheetdb-demo-weather",
+    "version": "1.0.0",
+    "main": "index.js",
+    "keywords": ["spreadsheetdb"],
+    "author": "SpreadsheetDB",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/spreadsheetdb/weather-demo-js"
+    },
+    "dependencies": {
+        "request": "*"
+    },
+    "homepage": "https://www.spreadsheetdb.io"
+}
