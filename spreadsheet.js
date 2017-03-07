@@ -8,9 +8,9 @@ var process = require("process");
 var request = require("request");
 
 (function() {
-    var exists = (function(auth, cb) {
+    var exists = (function(url, auth, cb) {
         request({
-            url: "http://api.spreadsheetdb.io/spreadsheet/weather",
+            url: url + "/spreadsheet/weather",
             auth: auth
         }, function(error, resp, body) {
             if (error != undefined) {
@@ -27,7 +27,7 @@ var request = require("request");
         });
     });
 
-    var insert = (function(auth) {
+    var insert = (function(url, auth) {
         /* Read the spreadsheet */
         try {
             var file = __dirname + "/spreadsheet.json";
@@ -49,7 +49,7 @@ var request = require("request");
          * http://www.spreadsheetdb.io/doc/api#post-spreadsheet
          */
         request({
-            url: "http://api.spreadsheetdb.io/spreadsheet",
+            url: url + "/spreadsheet",
             auth: auth,
             method: "POST",
             json: true,
@@ -83,11 +83,11 @@ var request = require("request");
         });
     });
 
-    module.exports.create = (function(auth) {
-        exists(auth, function(res) {
+    module.exports.create = (function(url, auth) {
+        exists(url, auth, function(res) {
             if (res == false) {
                 /* The spreadsheet doesn't exist, let's insert it. */
-                insert(auth);
+                insert(url, auth);
             }
         });
     });

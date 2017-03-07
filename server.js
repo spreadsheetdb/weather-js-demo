@@ -62,21 +62,23 @@ var request = require("request");
         return html;
     });
 
-    module.exports.run = (function(auth) {
+    module.exports.run = (function(url, auth) {
+        var host = process.env.HOST || "127.0.0.1";
+        var port = process.env.PORT || 8000;
+
         http.createServer(function(rq, response) {
             request({
-                url: "http://api.spreadsheetdb.io/"+
-                    "spreadsheet/weather?notation=x,y",
+                url: url + "/spreadsheet/weather?notation=x,y",
                 auth: auth,
             }, function(error, resp, body) {
                 try {
                     body = JSON.parse(body);
                 } catch(e) {
-                    fatal("cannot parse body:", e);
+                    return console.error("cannot parse body:", e);
                 }
 
                 if (body.error != undefined) {
-                    response.writeHead(400);
+                    response.writeHead(400)
                     return response.end(
                         "<p>" + body.error + ": " + body.text + "</p>");
                 }
@@ -88,9 +90,9 @@ var request = require("request");
                 response.writeHead(200);
                 response.end(html);
             });
-        }).listen(8000)
+        }).listen(port, host);
 
-        console.log("Server running at http://127.0.0.1:8000/");
+        console.log("Server running at " + host + ":" + port)
     });
 })();
 

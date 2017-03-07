@@ -9,6 +9,7 @@ var records = require("./records");
 var server = require("./server");
 var spreadsheet = require("./spreadsheet");
 
+var url = "https://api.spreadsheetdb.io";
 var authArgs = [];
 var weatherRecordInterval = 5 * 60 * 1000;
 
@@ -39,7 +40,6 @@ var auth = {
     pass: authArgs[1]
 }
 
-spreadsheet.create(auth);
-records.watchWeather(auth, weatherRecordInterval);
-
-server.run(auth);
+spreadsheet.create(url, auth);
+records.watchWeather(url, auth, weatherRecordInterval);
+server.run(url, auth);
