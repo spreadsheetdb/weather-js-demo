@@ -35,17 +35,25 @@ This demo uses the [Yahoo Weather API](https://developer.yahoo.com/weather/). Ev
 At launch time, the [spreadsheet](spreadsheet.json) is created by
 [spreadsheet.js](spreadsheet.js) if it does not exist.
 
-Let's take a close look at the cell 1,2 which displays the current temperature in Paris:
+The `columnFilters` field in the spreadsheet sets 3 filters, so the 3 columns will display
+values related to a specific city.
+
 ```json
 {
-    "value": "=CONCATENATE(ROUND((LAST(weather.item.condition.temp) - 32) * 5 / 9, 0), \"°C\")",
-    "filter": "weather.location.city == \"Paris\""
+    "1": "weather.location.city == \"Paris\"",
+    "2": "weather.location.city == \"Nairobi\"",
+    "3": "weather.location.city == \"Tokyo\""
 }
 ```
 
-Multiple things happen in the "value" field. First, the function [LAST(weather.location.city)](https://www.spreadsheetdb.io/doc/functions#last) returns the most recent value of location.city from the "weather" records.
-Next, a short formula is applied ((x - 32) * 5 / 9). It converts °F to °C since the Weather API only gives °F.
-Then we use [ROUND()](https://www.spreadsheetdb.io/doc/functions#round) to round the temperature, which is more conventionnal.
+Now let's take a close look at the "current temperature" forumla:
+```
+CONCATENATE(ROUND((LAST(weather.item.condition.temp) - 32) * 5 / 9, 0), "°C")
+```
+
+Multiple things happen here. First, the function [LAST(weather.location.city)](https://www.spreadsheetdb.io/doc/functions#last) returns the most recent value of location.city from the "weather" records.
+After a little formula is applied ((x - 32) * 5 / 9). If converts a °F to a °C since the Weather API only gives °F.
+Then we use [ROUND()](https://www.spreadsheetdb.io/doc/functions#round) to round the temperature since it is more conventionnal.
 And to finish, we use [CONCATENATE()](https://www.spreadsheetdb.io/doc/functions#concatenate) to display a nice "°C" after the value.
 
 We also need to add a "[filter](https://www.spreadsheetdb.io/doc/guide#filters)" field to filter records related to the city of Paris.
